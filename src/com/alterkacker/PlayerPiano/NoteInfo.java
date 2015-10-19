@@ -16,6 +16,7 @@ class NoteInfo {
 
     NoteInfo (String s){
         String keys1[] = {"c0", "c#", "d0", "d#", "e0", "f0", "f#", "g0", "g#", "a0", "a#", "b0"};
+        String keys2[] = {"c0", "db", "d0", "eb", "e0", "f0", "gb", "g0", "ab", "a0", "bb", "b0"};
         int octave = 4;
         int xpos = 0;
         int value = 4;
