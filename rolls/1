@@ -1,0 +1,11 @@
+# Syntax:
+# '#' begins comment line
+# '//' begins comment line or indicates rest of line is comment
+# Note notation ONAV
+# O - Octave number, default is 4
+# N - Note letter (case insensitive)
+# A - Accidental if needed, '#' for sharp, 'b' for flat, 'N' for natural
+# V - value, 1=whole note, 2=half note, 4=qtr, 8=eigth, 6=sixteenth (default is 4)
+#   append '+' for dotted note
+#   "Rest" indicated by O value 0 (zero) optionally followed by 'V'alue number.
+# Note notations are separated from each other by blank(s) or a slash; slash indicates measure separator.
