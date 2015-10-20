@@ -1,5 +1,9 @@
 package com.alterkacker.PlayerPiano;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 /**
  * Created by mblum on 10/19/15.
  */
@@ -15,42 +19,57 @@ class NoteInfo {
     }
 
     NoteInfo (String s){
-        String keys1[] = {"c0", "c#", "d0", "d#", "e0", "f0", "f#", "g0", "g#", "a0", "a#", "b0"};
-        String keys2[] = {"c0", "db", "d0", "eb", "e0", "f0", "gb", "g0", "ab", "a0", "bb", "b0"};
+        List<String> keys1 = Arrays.asList("cn", "c#", "dn", "d#", "en", "fn", "f#", "gn", "g#", "an", "a#", "bn");
+        List<String> keys2 = Arrays.asList("cn", "db", "dn", "eb", "en", "fn", "gb", "gn", "ab", "an", "bb", "bn");
         int octave = 4;
         int xpos = 0;
         int value = 4;
 
-        char s1 = s.charAt(xpos);
+        String sx = s.toLowerCase();
+
+        char s1 = sx.charAt(xpos);
         if (Character.isDigit(s1)){
-            octave = s1 - '4';
+            octave = s1 - '0';
             xpos = 1;
         }
 
-        int num = (s.charAt(xpos) - 'c') % 12;
+        String noteChar = sx.substring(xpos, xpos+1);
         xpos++;
-        char acc = '0';
-        if (xpos < s.length()){
-            acc = s.charAt(xpos);
+        char acc = 'n';
+        if (xpos < sx.length()){
+            acc = sx.charAt(xpos);
             switch (acc){
                 case '#':
-                    num++;
-                    acc = '+';
+                    acc = '#';
+                    xpos++;
                     break;
-                case 'b':case 'B':
-                    num--;
-                    acc='-';
+                case 'b':
+                    acc='b';
+                    xpos++;
                     break;
-                case 'N':case 'n':
-                    acc = '0';
+                case 'n':
+                    acc = 'n';
+                    xpos++;
                     break;
             }
-            xpos++;
         }
-        num += 12*(octave + 1);
+        noteChar += acc;
+        int num = 0;
+        if (acc == '#' || acc == 'n'){
+            num = keys1.indexOf((String) noteChar);
+        } else {
+            num = keys2.indexOf((String) noteChar);
+        }
+        num += 12*(octave+1);
 
         if (xpos < s.length()){
-            value = Integer.valueOf(s.charAt(xpos));
+            value = sx.charAt(xpos) - '0';
+            xpos++;
+        }
+        if (xpos < sx.length()){
+            if (sx.charAt(xpos) == '.'){
+                value += value / 2;
+            }
         }
 
         this.noteNum = num;
