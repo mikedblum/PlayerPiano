@@ -18,7 +18,7 @@ class NoteInfo {
         this.noteValue = value;
     }
 
-    NoteInfo (String s){
+    NoteInfo(String s){
         List<String> keys1 = Arrays.asList("cn", "c#", "dn", "d#", "en", "fn", "f#", "gn", "g#", "an", "a#", "bn");
         List<String> keys2 = Arrays.asList("cn", "db", "dn", "eb", "en", "fn", "gb", "gn", "ab", "an", "bb", "bn");
         int octave = 4;
@@ -26,54 +26,67 @@ class NoteInfo {
         int value = 4;
 
         String sx = s.toLowerCase();
+        int sxl = sx.length();
 
-        char s1 = sx.charAt(xpos);
-        if (Character.isDigit(s1)){
-            octave = s1 - '0';
-            xpos = 1;
-        }
+//        char s1 = sx.charAt(xpos);
+//        if (Character.isDigit(s1)){
+//            octave = s1 - '0';
+//            xpos = 1;
+//        }
 
+        // Get the note character
         String noteChar = sx.substring(xpos, xpos+1);
+
+        // Look for accidental character
         xpos++;
-        char acc = 'n';
-        if (xpos < sx.length()){
-            acc = sx.charAt(xpos);
-            switch (acc){
-                case '#':
-                    acc = '#';
-                    xpos++;
-                    break;
-                case 'b':
-                    acc='b';
-                    xpos++;
-                    break;
-                case 'n':
-                    acc = 'n';
-                    xpos++;
-                    break;
+        String accChar = "n";
+        if (xpos < sxl){
+            accChar = sx.substring(xpos, xpos+1);
+            if ("#bn".indexOf(accChar) > 0){
+                xpos++;
+            } else {
+                accChar = "n";
             }
         }
-        noteChar += acc;
-        int num = 0;
-        if (acc == '#' || acc == 'n'){
-            num = keys1.indexOf((String) noteChar);
+
+        // Determine noteNumber without octave
+        noteChar += accChar;
+        int noteNumber = 0;
+        if ("#n".indexOf(accChar) > 0){
+            noteNumber = keys1.indexOf(noteChar);
         } else {
-            num = keys2.indexOf((String) noteChar);
+            noteNumber = keys2.indexOf(noteChar);
         }
-        num += 12*(octave+1);
 
-        if (xpos < s.length()){
-            value = sx.charAt(xpos) - '0';
-            xpos++;
+        // Next character can be octave number, or "/" starting value spec
+        String octaveChar = "4";
+        if (xpos < sxl) {
+            String x = sx.substring(xpos, xpos + 1);
+            if (Character.isDigit(x.charAt(0))){
+                octaveChar = x;
+                xpos++;
+            }
         }
-        if (xpos < sx.length()){
-            if (sx.charAt(xpos) == '.'){
-                value += value / 2;
+        octave = octaveChar.charAt(0) - '0';
+        noteNumber += 12*(octave+1);
+
+        if (xpos < sxl) {
+            String x = sx.substring(xpos, xpos + 1);
+            if ("/".equals(x)){
+                xpos++;
+                String valueSpec = x.substring(xpos);
+                boolean dotted = valueSpec.endsWith(".");
+                if (dotted){
+                    valueSpec = valueSpec.substring(0,valueSpec.length()-1);
+                }
+                value = 32 / Integer.valueOf(valueSpec);
+                if (dotted)
+                    value += value / 2;
             }
         }
 
-        this.noteNum = num;
-        this.noteAcc = acc;
+        this.noteNum = noteNumber;
+        this.noteAcc = accChar.charAt(0);
         this.noteValue = value;
     }
 
