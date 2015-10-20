@@ -1,0 +1,15 @@
+# Syntax:
+# '#' begins comment line
+# Note notation NAO/V
+# N - Note letter (case insensitive)
+# A - Accidental if needed, '#' for sharp, 'b' for flat, 'N' for natural
+# O - Octave number, default is 4
+# V - value, 1=whole note, 2=half note, 4=qtr, 8=eigth, 16=sixteenth (default is 4)
+#   append '.' for dotted note
+# Examples: C C#4 C#4/8. C#4/8. A/8 Ab/4
+#
+# "Rest" indicated by N value 'R' optionally followed by 'V'alue number.
+# Examples: R R/8
+#
+# Note notations are separated from each other by blank(s) or a vertical bar ('|'); the bar indicates a
+# measure separator.
