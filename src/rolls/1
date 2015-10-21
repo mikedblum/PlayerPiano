@@ -1,5 +1,10 @@
 # Syntax:
 # '#' begins comment line
+#
+# First line is:
+# <msec per qtr note>
+#
+# Subsequent lines are "staff lines.
 # Note notation NAO/V
 # N - Note letter (case insensitive)
 # A - Accidental if needed, '#' for sharp, 'b' for flat, 'N' for natural
@@ -13,3 +18,6 @@
 #
 # Note notations are separated from each other by blank(s) or a vertical bar ('|'); the bar indicates a
 # measure separator.
+
+500
+C
