@@ -17,16 +17,10 @@ class NoteSpec {
     }
 
     NoteSpec(String s){
-//        List<String> keys1 = Arrays.asList("cn", "c#", "dn", "d#", "en", "fn", "f#", "gn", "g#", "an", "a#", "bn");
-//        List<String> keys2 = Arrays.asList("cn", "db", "dn", "eb", "en", "fn", "gb", "gn", "ab", "an", "bb", "bn");
         int xpos = 0;
 
         String sx = s.toLowerCase();
         int sxl = sx.length();
-
-        // Get the note character
-        //        octave = octaveChar.charAt(0) - '0';
-//        noteNumber += 12*(octave+1);
 
         char ltr = sx.charAt(xpos);
 
@@ -42,14 +36,6 @@ class NoteSpec {
             }
         }
 
-        // Determine noteNumber without octave
-//        int noteNumber = 0;
-//        if ("#n".indexOf(accChar) > 0){
-//            noteNumber = keys1.indexOf(noteChar);
-//        } else {
-//            noteNumber = keys2.indexOf(noteChar);
-//        }
-
         // Next character can be octave number, or "/" starting value spec
         int octave = 4;
         if (xpos < sxl) {
@@ -59,8 +45,6 @@ class NoteSpec {
                 xpos++;
             }
         }
-//        octave = octaveChar.charAt(0) - '0';
-//        noteNumber += 12*(octave+1);
 
         int value = 4;
         if (xpos < sxl) {
