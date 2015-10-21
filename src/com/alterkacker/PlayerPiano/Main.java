@@ -11,6 +11,10 @@ import java.io.*;
 
 public class Main {
     public static void main(String args[]) {
+        String x = "A B  C   D|E| F |G  |  H";
+        String xx = " A BB  CCCC   D  ";
+        String[] pcs = xx.trim().split(" +");
+        System.out.println(pcs);
         InputStream is = Main.class.getClassLoader().getResourceAsStream("rolls/1");
         BufferedReader br = new BufferedReader(new InputStreamReader(new BufferedInputStream(is)));
         // BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(filepath)));
