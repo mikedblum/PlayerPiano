@@ -18,7 +18,6 @@ public class RollPlayer {
         mc0 = mcs[0];
         instr = synth.getDefaultSoundbank().getInstruments();
         synth.loadInstrument(instr[0]);
-        mc0.noteOn(90, 127);
     }
 
     static void playRoll(List<NoteInfo> roll){

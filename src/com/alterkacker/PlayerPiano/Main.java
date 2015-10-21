@@ -1,6 +1,6 @@
 package com.alterkacker.PlayerPiano;
 
-import javax.sound.midi.MidiUnavailableException;
+import javax.sound.midi.*;
 import java.io.*;
 import java.util.List;
 
@@ -12,11 +12,11 @@ public class Main {
         List<NoteInfo> roll = RollParser.parseRoll(br);
         RollPlayer rollPlayer = null;
         try {
-//            RollPlayer.init();
-            rollPlayer = new RollPlayer();
+            RollPlayer.init();
+//            rollPlayer = new RollPlayer();
         } catch (MidiUnavailableException e) {
             e.printStackTrace();
         }
-        rollPlayer.playRoll(roll);
+        RollPlayer.playRoll(roll);
     }
 }

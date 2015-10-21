@@ -16,8 +16,9 @@
 # "Rest" indicated by N value 'R' optionally followed by 'V'alue number.
 # Examples: R R/8
 #
-# Note notations are separated from each other by blank(s) or a vertical bar ('|'); the bar indicates a
+# Note notations are  separated from each other by blank(s) or a vertical bar ('|'); the bar indicates a
 # measure separator.
 
-500
-C
+1000
+C c# c#
+#C C#/16 D Eb/8 E E/4 R/4 E/2 E/1

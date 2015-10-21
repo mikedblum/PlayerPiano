@@ -22,16 +22,21 @@ public class NoteInfo {
         String noteLtr = String.valueOf(nspec.noteLtr);
         String noteAcc = String.valueOf(nspec.noteAcc);
         String fullNote = noteLtr + noteAcc;
-        // Determine noteNumber without octave
-        int noteNumber;
-        if ("#n".indexOf(noteAcc) > 0){
-            noteNumber = keys1.indexOf(fullNote);
-        } else {
-            noteNumber = keys2.indexOf(fullNote);
-        }
 
-        // Apply octave
-        noteNumber += 12*(nspec.noteOctave+1);
+        int noteNumber;
+        if (noteLtr.equals("r")){
+            noteNumber = -1;
+        } else {
+            // Determine noteNumber without octave
+            if ("#n".indexOf(noteAcc) > -1) {
+                noteNumber = keys1.indexOf(fullNote);
+            } else {
+                noteNumber = keys2.indexOf(fullNote);
+            }
+
+            // Apply octave
+            noteNumber += 12 * (nspec.noteOctave + 1);
+        }
 
         // Determine note Msec
         int fullMsec = qtrMsec * 4;
