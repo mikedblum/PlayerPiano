@@ -10,10 +10,11 @@ import java.util.*;
 public class RollParser {
     private static int qtrMsec = 0;
     private static List<NoteInfo> notes = new ArrayList<>();
-    private static final List<String> validNotes = Arrays.asList("cn", "c#", "db", "dn", "d#", "eb", "en", "fn", "f#", "gb", "gn", "g#",
-            "an", "a#", "bb", "bn");
+    private static final List<String> validNotes = Arrays.asList("c", "cn", "c#", "d", "db", "dn", "d#", "e", "eb", "en",
+            "f", "fn", "f#", "g", "gb", "gn", "g#", "a", "an", "a#", "b", "bb", "bn");
     private static final List<String> validSigNotes = Arrays.asList("c#", "db", "d#", "eb", "f#", "gb", "g#", "a#", "bb", "bn");
-    private static final Map<String, String> sigNotes = new HashMap<>();
+    private static final Map<String, String> sigAccs = new HashMap<>();
+    private static final Map<String, String> msrAccs = new HashMap<>();
 
     public static List<NoteInfo> parseRoll(BufferedReader br) {
         String aline;
@@ -51,8 +52,8 @@ public class RollParser {
                 String fld = flds[ix];
                 if (validSigNotes.contains(fld)){
                     String noteLtr = fld.substring(0, 1);
-                    String noteAcc = fld.substring(1, 1);
-                    sigNotes.put(noteLtr, noteAcc);
+                    String noteAcc = fld.substring(1, 2);
+                    sigAccs.put(noteLtr, noteAcc);
                 } else {
                     System.err.println("Invalid note spec '"+fld+"' in signature line ("+nLines+")");
                 }
@@ -63,14 +64,23 @@ public class RollParser {
     private static void parseAline(String aline, int nLines){
         String measures[] = aline.split("\\|");
         for (String measure: measures){
+            msrAccs.clear();
+            msrAccs.putAll(sigAccs);
             String specs[] = measure.trim().split(" +");
             for (String spec: specs){
                 NoteSpec nspec = new NoteSpec(spec);
-                String fullNote = String.valueOf(nspec.noteLtr)+String.valueOf(nspec.noteAcc);
+                String noteLtrS = String.valueOf(nspec.noteLtr);
+                String noteAccS = String.valueOf(nspec.noteAcc);
+                String fullNote = noteLtrS;
+                if (!" ".equals(noteAccS)) {
+                    fullNote += noteAccS;
+                    if (!"n".equals(noteAccS) && !msrAccs.containsKey(noteLtrS))
+                        msrAccs.put(noteLtrS, noteAccS);
+                }
                 if (validNotes.contains(fullNote)) {
                     NoteInfo nplay = new NoteInfo(nspec, qtrMsec);
-                    if (sigNotes.containsKey(fullNote)){
-                        nplay.noteNumber += sigNotes.get(fullNote).equals("#")? 1: -1;
+                    if (msrAccs.containsKey(fullNote)){
+                        nplay.noteNumber += msrAccs.get(fullNote).equals("#")? 1: -1;
                     }
                     notes.add(nplay);
                 } else {
@@ -79,4 +89,5 @@ public class RollParser {
             }
         }
     }
+
 }

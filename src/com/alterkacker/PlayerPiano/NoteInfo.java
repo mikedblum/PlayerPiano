@@ -7,8 +7,9 @@ import java.util.List;
  * Created by mblum on 10/20/15.
  */
 public class NoteInfo {
-    static List<String> keys1 = Arrays.asList("cn", "c#", "dn", "d#", "en", "fn", "f#", "gn", "g#", "an", "a#", "bn");
-    static List<String> keys2 = Arrays.asList("cn", "db", "dn", "eb", "en", "fn", "gb", "gn", "ab", "an", "bb", "bn");
+    static List<String> keysSharp = Arrays.asList("cn", "c#", "dn", "d#", "en", "fn", "f#", "gn", "g#", "an", "a#", "bn");
+    static List<String> keysFlat = Arrays.asList("cn", "db", "dn", "eb", "en", "fn", "gb", "gn", "ab", "an", "bb", "bn");
+    static List<String> keysNone = Arrays.asList("c", "", "d", "", "e", "f", "", "g", "", "a", "", "b");
 
     int noteNumber;
     int noteMsec;
@@ -28,10 +29,12 @@ public class NoteInfo {
             noteNumber = -1;
         } else {
             // Determine noteNumber without octave
-            if ("#n".indexOf(noteAcc) > -1) {
-                noteNumber = keys1.indexOf(fullNote);
+            if (" ".equals(noteAcc)){
+                noteNumber = keysNone.indexOf(noteLtr);
+            } else if ("#".equals(noteAcc)) {
+                noteNumber = keysSharp.indexOf(fullNote);
             } else {
-                noteNumber = keys2.indexOf(fullNote);
+                noteNumber = keysFlat.indexOf(fullNote);
             }
 
             // Apply octave
