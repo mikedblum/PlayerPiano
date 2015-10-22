@@ -26,13 +26,13 @@ class NoteSpec {
 
         // Look for accidental character
         xpos++;
-        char acc = 'n';
+        char acc = ' ';
         if (xpos < sxl){
             acc = sx.charAt(xpos);
             if (acc == '#' || acc == 'b' || acc == 'n'){
                 xpos++;
             } else {
-                acc = 'n';
+                acc = ' ';
             }
         }
 

@@ -8,9 +8,7 @@ import java.util.List;
  * Created by mblum on 10/21/15.
  */
 public class RollPlayer {
-//    private static Synthesizer synth;
     private static MidiChannel mc0;
-//    private static Instrument[] instr;
 
     static void init() throws MidiUnavailableException{
         Synthesizer synth = MidiSystem.getSynthesizer();

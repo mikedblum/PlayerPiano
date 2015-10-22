@@ -2,9 +2,7 @@ package com.alterkacker.PlayerPiano;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by mblum on 10/21/15.
@@ -14,8 +12,8 @@ public class RollParser {
     private static List<NoteInfo> notes = new ArrayList<>();
     private static final List<String> validNotes = Arrays.asList("cn", "c#", "db", "dn", "d#", "eb", "en", "fn", "f#", "gb", "gn", "g#",
             "an", "a#", "bb", "bn");
-    private static final List<String> sigNotes = new ArrayList<>();
-//        List<String> keys2 = Arrays.asList("cn", "db", "dn", "eb", "en", "fn", "gb", "gn", "ab", "an", "bb", "bn");
+    private static final List<String> validSigNotes = Arrays.asList("c#", "db", "d#", "eb", "f#", "gb", "g#", "a#", "bb", "bn");
+    private static final Map<String, String> sigNotes = new HashMap<>();
 
     public static List<NoteInfo> parseRoll(BufferedReader br) {
         String aline;
@@ -51,8 +49,10 @@ public class RollParser {
         if (flds.length > 1){
             for (int ix=1; ix<flds.length; ix++){
                 String fld = flds[ix];
-                if (validNotes.contains(fld)){
-                    sigNotes.add(fld);
+                if (validSigNotes.contains(fld)){
+                    String noteLtr = fld.substring(0, 1);
+                    String noteAcc = fld.substring(1, 1);
+                    sigNotes.put(noteLtr, noteAcc);
                 } else {
                     System.err.println("Invalid note spec '"+fld+"' in signature line ("+nLines+")");
                 }
@@ -65,9 +65,13 @@ public class RollParser {
         for (String measure: measures){
             String specs[] = measure.trim().split(" +");
             for (String spec: specs){
-                if (validNotes.contains(spec)) {
-                    NoteSpec nspec = new NoteSpec(spec);
+                NoteSpec nspec = new NoteSpec(spec);
+                String fullNote = String.valueOf(nspec.noteLtr)+String.valueOf(nspec.noteAcc);
+                if (validNotes.contains(fullNote)) {
                     NoteInfo nplay = new NoteInfo(nspec, qtrMsec);
+                    if (sigNotes.containsKey(fullNote)){
+                        nplay.noteNumber += sigNotes.get(fullNote).equals("#")? 1: -1;
+                    }
                     notes.add(nplay);
                 } else {
                     System.err.println("Invalid note spec '"+spec+"' in music line ("+nLines+")");
