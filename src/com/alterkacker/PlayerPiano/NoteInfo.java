@@ -20,18 +20,18 @@ public class NoteInfo {
     }
 
     NoteInfo(NoteSpec nspec, int qtrMsec){
-        String noteLtr = String.valueOf(nspec.noteLtr);
-        String noteAcc = String.valueOf(nspec.noteAcc);
-        String fullNote = noteLtr + noteAcc;
+        String fullNote = nspec.noteLtr;
+        if (nspec.noteAcc != null)
+            fullNote += nspec.noteAcc;
 
         int noteNumber;
-        if (noteLtr.equals("r")){
+        if (nspec.noteLtr.equals("r")){
             noteNumber = -1;
         } else {
             // Determine noteNumber without octave
-            if (" ".equals(noteAcc)){
-                noteNumber = keysNone.indexOf(noteLtr);
-            } else if ("#".equals(noteAcc)) {
+            if (nspec.noteAcc == null){
+                noteNumber = keysNone.indexOf(nspec.noteLtr);
+            } else if ("#n".contains(nspec.noteAcc)) {
                 noteNumber = keysSharp.indexOf(fullNote);
             } else {
                 noteNumber = keysFlat.indexOf(fullNote);

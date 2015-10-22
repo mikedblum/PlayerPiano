@@ -4,12 +4,12 @@ package com.alterkacker.PlayerPiano;
  * Created by mblum on 10/19/15.
  */
 class NoteSpec {
-    char noteLtr;
-    char noteAcc;
+    String noteLtr;
+    String noteAcc;
     int noteOctave;
     int noteValue;
 
-    NoteSpec(char ltr, char acc, int octave, int value) {
+    NoteSpec(String ltr, String acc, int octave, int value) {
         this.noteLtr = ltr;
         this.noteAcc = acc;
         this.noteOctave = octave;
@@ -22,17 +22,16 @@ class NoteSpec {
         String sx = s.toLowerCase();
         int sxl = sx.length();
 
-        char ltr = sx.charAt(xpos);
+        String ltr = sx.substring(xpos, 1);
 
         // Look for accidental character
         xpos++;
-        char acc = ' ';
+        String acc = null;
         if (xpos < sxl){
-            acc = sx.charAt(xpos);
-            if (acc == '#' || acc == 'b' || acc == 'n'){
+            String tacc = sx.substring(xpos, xpos+1);
+            if ("#bn".contains(tacc)){
+                acc = tacc;
                 xpos++;
-            } else {
-                acc = ' ';
             }
         }
 
@@ -75,17 +74,17 @@ class NoteSpec {
 
         NoteSpec noteSpec = (NoteSpec) o;
 
-        if (noteLtr != noteSpec.noteLtr) return false;
-        if (noteAcc != noteSpec.noteAcc) return false;
         if (noteOctave != noteSpec.noteOctave) return false;
-        return noteValue == noteSpec.noteValue;
+        if (noteValue != noteSpec.noteValue) return false;
+        if (!noteLtr.equals(noteSpec.noteLtr)) return false;
+        return !(noteAcc != null ? !noteAcc.equals(noteSpec.noteAcc) : noteSpec.noteAcc != null);
 
     }
 
     @Override
     public int hashCode() {
-        int result = (int) noteLtr;
-        result = 31 * result + (int) noteAcc;
+        int result = noteLtr.hashCode();
+        result = 31 * result + (noteAcc != null ? noteAcc.hashCode() : 0);
         result = 31 * result + noteOctave;
         result = 31 * result + noteValue;
         return result;

@@ -69,13 +69,11 @@ public class RollParser {
             String specs[] = measure.trim().split(" +");
             for (String spec: specs){
                 NoteSpec nspec = new NoteSpec(spec);
-                String noteLtrS = String.valueOf(nspec.noteLtr);
-                String noteAccS = String.valueOf(nspec.noteAcc);
-                String fullNote = noteLtrS;
-                if (!" ".equals(noteAccS)) {
-                    fullNote += noteAccS;
-                    if (!"n".equals(noteAccS) && !msrAccs.containsKey(noteLtrS))
-                        msrAccs.put(noteLtrS, noteAccS);
+                String fullNote = nspec.noteLtr;
+                if (nspec.noteAcc != null) {
+                    fullNote += nspec.noteAcc;
+                    if (!"n".equals(nspec.noteAcc) && !msrAccs.containsKey(nspec.noteLtr))
+                        msrAccs.put(nspec.noteLtr, nspec.noteAcc);
                 }
                 if (validNotes.contains(fullNote)) {
                     NoteInfo nplay = new NoteInfo(nspec, qtrMsec);
