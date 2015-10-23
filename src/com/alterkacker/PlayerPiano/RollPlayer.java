@@ -26,18 +26,19 @@ public class RollPlayer {
     }
 
     private static void playNote(NoteInfo note){
-        System.out.println(">"+note.noteNumber+" for "+note.noteMsec+"msec at "+(new Date()));
+        //System.out.println(">"+note.noteNumber+" for "+note.noteMsec+"msec at "+(new Date()));
+        if (note.noteNewLine)
+            System.out.println();
+        System.out.print(note.noteSpec + "  ");
         if (note.noteNumber > -1) {
             mc0.noteOn(note.noteNumber, 127);
         }
         try {
-            Thread.sleep(note.noteMsec);
+            Thread.sleep((long) note.noteMsec);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        if (note.noteNumber > -1){
-            mc0.allNotesOff();
-        }
+        mc0.allNotesOff();
     }
 
 }

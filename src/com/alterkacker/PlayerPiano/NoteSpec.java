@@ -7,9 +7,12 @@ class NoteSpec {
     String noteLtr;
     String noteAcc;
     int noteOctave;
-    int noteValue;
+    double noteValue;
+    // Following fields not included in equals & hashCode methods
+    String noteSpec;
+    boolean noteNewLine;
 
-    NoteSpec(String ltr, String acc, int octave, int value) {
+    NoteSpec(String ltr, String acc, int octave, double value) {
         this.noteLtr = ltr;
         this.noteAcc = acc;
         this.noteOctave = octave;
@@ -17,6 +20,10 @@ class NoteSpec {
     }
 
     NoteSpec(String s){
+        this(s, false);
+    }
+
+    NoteSpec(String s, boolean atLineStart){
         int xpos = 0;
 
         String sx = s.toLowerCase();
@@ -45,7 +52,7 @@ class NoteSpec {
             }
         }
 
-        int value = 4;
+        double value = 4;
         if (xpos < sxl) {
             char x = sx.charAt(xpos);
             if (x == '/'){
@@ -55,12 +62,14 @@ class NoteSpec {
                 if (dotted){
                     valueSpec = valueSpec.substring(0,valueSpec.length()-1);
                 }
-                value = Integer.valueOf(valueSpec);
+                value = Double.valueOf(valueSpec);
                 if (dotted)
-                    value += value / 2;
+                    value *= 2.0/ 3.0;
             }
         }
 
+        this.noteSpec = sx;
+        this.noteNewLine = atLineStart;
         this.noteLtr = ltr;
         this.noteAcc = acc;
         this.noteOctave = octave;
@@ -75,7 +84,7 @@ class NoteSpec {
         NoteSpec noteSpec = (NoteSpec) o;
 
         if (noteOctave != noteSpec.noteOctave) return false;
-        if (noteValue != noteSpec.noteValue) return false;
+        if (Double.compare(noteSpec.noteValue, noteValue) != 0) return false;
         if (!noteLtr.equals(noteSpec.noteLtr)) return false;
         return !(noteAcc != null ? !noteAcc.equals(noteSpec.noteAcc) : noteSpec.noteAcc != null);
 
@@ -83,10 +92,13 @@ class NoteSpec {
 
     @Override
     public int hashCode() {
-        int result = noteLtr.hashCode();
+        int result;
+        long temp;
+        result = noteLtr.hashCode();
         result = 31 * result + (noteAcc != null ? noteAcc.hashCode() : 0);
         result = 31 * result + noteOctave;
-        result = 31 * result + noteValue;
+        temp = Double.doubleToLongBits(noteValue);
+        result = 31 * result + (int) (temp ^ (temp >>> 32));
         return result;
     }
 }

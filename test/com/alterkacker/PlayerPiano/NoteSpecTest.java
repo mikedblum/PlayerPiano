@@ -71,7 +71,7 @@ public class NoteSpecTest {
         n2 = new NoteSpec("c/8");
         assertEquals("Should be Middle C (60) eigth", n, n2);
 
-        n = new NoteSpec("c", null, 4, 12);
+        n = new NoteSpec("c", null, 4, 8.0*(2.0/3.0));
         n2 = new NoteSpec("c/8.");
         assertEquals("Should be Middle C (60) dotted eigth", n, n2);
     }
@@ -80,7 +80,7 @@ public class NoteSpecTest {
     public void testAll() throws Exception{
         NoteSpec n, n2;
 
-        n = new NoteSpec("f", "#", 2, 6);
+        n = new NoteSpec("f", "#", 2, (double) 4.0*((double) 2.0/3.0));
         n2 = new NoteSpec("f#2/4.");
         assertEquals("Should be F#4 dotted fourth", n, n2);
     }

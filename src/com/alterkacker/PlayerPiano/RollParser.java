@@ -10,9 +10,9 @@ import java.util.*;
 public class RollParser {
     private static int qtrMsec = 0;
     private static List<NoteInfo> notes = new ArrayList<>();
-    private static final List<String> validNotes = Arrays.asList("c", "cn", "c#", "d", "db", "dn", "d#", "e", "eb", "en",
+    private static final List<String> validNotes = Arrays.asList("r", "c", "cn", "c#", "d", "db", "dn", "d#", "e", "eb", "en",
             "f", "fn", "f#", "g", "gb", "gn", "g#", "a", "an", "a#", "b", "bb", "bn");
-    private static final List<String> validSigNotes = Arrays.asList("c#", "db", "d#", "eb", "f#", "gb", "g#", "a#", "bb", "bn");
+    private static final List<String> validSigNotes = Arrays.asList("c#", "db", "d#", "eb", "f#", "gb", "g#", "ab", "a#", "bb", "bn");
     private static final Map<String, String> sigAccs = new HashMap<>();
     private static final Map<String, String> msrAccs = new HashMap<>();
 
@@ -50,6 +50,10 @@ public class RollParser {
         if (flds.length > 1){
             for (int ix=1; ix<flds.length; ix++){
                 String fld = flds[ix];
+                if (fld.length() == 2){
+                    fld = fld.substring(0,1)+"4"+fld.substring(1);
+                }
+                String noteAcc = fld.substring(0, 1) + fld.substring(2);
                 if (validSigNotes.contains(fld)){
                     String noteLtr = fld.substring(0, 1);
                     String noteAcc = fld.substring(1, 2);
@@ -62,13 +66,14 @@ public class RollParser {
     }
 
     private static void parseAline(String aline, int nLines){
+        boolean atLineStart = true;
         String measures[] = aline.split("\\|");
         for (String measure: measures){
             msrAccs.clear();
             msrAccs.putAll(sigAccs);
             String specs[] = measure.trim().split(" +");
             for (String spec: specs){
-                NoteSpec nspec = new NoteSpec(spec);
+                NoteSpec nspec = new NoteSpec(spec, atLineStart);
                 String fullNote = nspec.noteLtr;
                 if (nspec.noteAcc != null) {
                     fullNote += nspec.noteAcc;
@@ -84,6 +89,7 @@ public class RollParser {
                 } else {
                     System.err.println("Invalid note spec '"+spec+"' in music line ("+nLines+")");
                 }
+                atLineStart = false;
             }
         }
     }
