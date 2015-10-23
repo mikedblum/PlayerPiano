@@ -10,7 +10,7 @@ class NoteSpec {
     double noteValue;
     // Following fields not included in equals & hashCode methods
     String noteSpec;
-    boolean noteNewLine;
+    boolean noteLineEnd;
 
     NoteSpec(String ltr, String acc, int octave, double value) {
         this.noteLtr = ltr;
@@ -23,7 +23,7 @@ class NoteSpec {
         this(s, false);
     }
 
-    NoteSpec(String s, boolean atLineStart){
+    NoteSpec(String s, boolean atLineEnd){
         int xpos = 0;
 
         String sx = s.toLowerCase();
@@ -63,13 +63,14 @@ class NoteSpec {
                     valueSpec = valueSpec.substring(0,valueSpec.length()-1);
                 }
                 value = Double.valueOf(valueSpec);
-                if (dotted)
-                    value *= 2.0/ 3.0;
+                if (dotted) {
+                    value *= 2.0 / 3.0;
+                }
             }
         }
 
         this.noteSpec = sx;
-        this.noteNewLine = atLineStart;
+        this.noteLineEnd = atLineEnd;
         this.noteLtr = ltr;
         this.noteAcc = acc;
         this.noteOctave = octave;

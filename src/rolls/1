@@ -19,6 +19,8 @@
 # Note notations are  separated from each other by blank(s) or a vertical bar ('|'); the bar indicates a
 # measure separator.
 
-1000 bb c#    d#
-b3 R bn3/8 C cn/8 D d# db dn g g# g gn g |g c
+#1000 bb c#    d#
+1000 c#
+c3  c cn c# c cn c5 c#5 cn5 c5 c3 e1 c2 c6 b6
+#b3 R bn3/8 C cn/8 D d# db dn g g# g gn g |g c
 #C C#/16 D Eb/8 E E/4 R/4 E/2 E/1

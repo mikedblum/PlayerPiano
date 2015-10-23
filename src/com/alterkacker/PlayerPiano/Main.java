@@ -6,7 +6,15 @@ import java.util.List;
 
 public class Main {
     public static void main(String args[]) {
-        InputStream is = Main.class.getClassLoader().getResourceAsStream("rolls/Exercise1");
+        if (args.length < 1){
+            System.err.println("No roll specified!");
+            System.exit(-1);
+        }
+        InputStream is = Main.class.getClassLoader().getResourceAsStream("rolls/" + args[0]);
+        if (is == null){
+            System.err.println("Roll '"+args[0]+"' not found!");
+            System.exit(1);
+        }
         BufferedReader br = new BufferedReader(new InputStreamReader(new BufferedInputStream(is)));
         // BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(filepath)));
         List<NoteInfo> roll = RollParser.parseRoll(br);

@@ -24,7 +24,7 @@ public class NoteInfo {
 
     NoteInfo(NoteSpec nspec, int qtrMsec){
         this.noteSpec = nspec.noteSpec;
-        this.noteNewLine = nspec.noteNewLine;
+        this.noteNewLine = nspec.noteLineEnd;
 
         String fullNote = nspec.noteLtr;
         if (nspec.noteAcc != null)

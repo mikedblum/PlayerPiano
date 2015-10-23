@@ -48,48 +48,52 @@ public class RollParser {
         String flds[] = aline.split(" ");
         qtrMsec = Integer.valueOf(flds[0]);
         if (flds.length > 1){
-            for (int ix=1; ix<flds.length; ix++){
+            for (int ix=1; ix<flds.length; ix++) {
                 String fld = flds[ix];
-                if (fld.length() == 2){
-                    fld = fld.substring(0,1)+"4"+fld.substring(1);
+                if (fld.length() == 2) {
+                    fld = fld.substring(0, 1) + "4" + fld.substring(1);
                 }
-                String noteAcc = fld.substring(0, 1) + fld.substring(2);
-                if (validSigNotes.contains(fld)){
-                    String noteLtr = fld.substring(0, 1);
-                    String noteAcc = fld.substring(1, 2);
-                    sigAccs.put(noteLtr, noteAcc);
+                String noteLtr = fld.substring(0, 1);
+                String noteOctave = fld.substring(1, 2);
+                String noteAcc = fld.substring(2);
+                String tNote = noteLtr + noteAcc;
+                if (validSigNotes.contains(tNote)) {
+                    sigAccs.put(noteLtr + noteOctave, noteAcc);
                 } else {
-                    System.err.println("Invalid note spec '"+fld+"' in signature line ("+nLines+")");
+                    System.err.println("Invalid note spec '" + fld + "' in signature line (" + nLines + ")");
                 }
             }
         }
     }
 
     private static void parseAline(String aline, int nLines){
-        boolean atLineStart = true;
         String measures[] = aline.split("\\|");
-        for (String measure: measures){
+        int nMeasures = measures.length;
+        for (int mx = 0; mx < nMeasures; mx++){
+            String measure = measures[mx];
             msrAccs.clear();
             msrAccs.putAll(sigAccs);
             String specs[] = measure.trim().split(" +");
-            for (String spec: specs){
-                NoteSpec nspec = new NoteSpec(spec, atLineStart);
-                String fullNote = nspec.noteLtr;
+            int nSpecs = specs.length;
+            for (int sx=0; sx < nSpecs; sx++){
+                String spec = specs[sx];
+                NoteSpec nspec = new NoteSpec(spec, (mx == nMeasures-1 && sx == nSpecs-1));
+                String noteAndAcc = nspec.noteLtr;
+                String noteAndOctave = nspec.noteLtr + String.valueOf(nspec.noteOctave);
                 if (nspec.noteAcc != null) {
-                    fullNote += nspec.noteAcc;
-                    if (!"n".equals(nspec.noteAcc) && !msrAccs.containsKey(nspec.noteLtr))
-                        msrAccs.put(nspec.noteLtr, nspec.noteAcc);
+                    noteAndAcc += nspec.noteAcc;
+                    if (!"n".equals(nspec.noteAcc) && !msrAccs.containsKey(noteAndOctave))
+                        msrAccs.put(noteAndOctave, nspec.noteAcc);
                 }
-                if (validNotes.contains(fullNote)) {
+                if (validNotes.contains(noteAndAcc)) {
                     NoteInfo nplay = new NoteInfo(nspec, qtrMsec);
-                    if (msrAccs.containsKey(fullNote)){
-                        nplay.noteNumber += msrAccs.get(fullNote).equals("#")? 1: -1;
+                    if (nspec.noteAcc == null && msrAccs.containsKey(noteAndOctave)){
+                        nplay.noteNumber += msrAccs.get(noteAndOctave).equals("#")? 1: -1;
                     }
                     notes.add(nplay);
                 } else {
                     System.err.println("Invalid note spec '"+spec+"' in music line ("+nLines+")");
                 }
-                atLineStart = false;
             }
         }
     }
