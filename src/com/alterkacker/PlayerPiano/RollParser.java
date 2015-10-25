@@ -41,8 +41,6 @@ public class RollParser {
             } catch (IOException e) {
             }
         }
-        http:
-//www.linuxmint.com/start/katya/
 
         return notes;
     }
