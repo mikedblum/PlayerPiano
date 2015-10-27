@@ -11,7 +11,7 @@ public class RollParser {
     private static int qtrMsec = 0;
     private static List<NoteInfo> notes = new ArrayList<>();
     private static final List<String> validNotes = Arrays.asList("r", "c", "cn", "c#", "d", "db", "dn", "d#", "e", "eb", "en",
-            "f", "fn", "f#", "g", "gb", "gn", "g#", "a", "an", "a#", "b", "bb", "bn");
+            "f", "fn", "f#", "g", "gb", "gn", "g#", "a", "an", "ab", "a#", "b", "bb", "bn");
     private static final List<String> validSigNotes = Arrays.asList("c#", "db", "d#", "eb", "f#", "gb", "g#", "ab", "a#", "bb", "bn");
     private static final Map<String, String> sigAccs = new HashMap<>();
     private static final Map<String, String> msrAccs = new HashMap<>();

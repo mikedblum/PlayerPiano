@@ -27,7 +27,8 @@ public class RollPlayer {
 
     private static void playNote(NoteInfo note){
         //System.out.println(">"+note.noteNumber+" for "+note.noteMsec+"msec at "+(new Date()));
-        System.out.print(note.noteSpec + "(" + note.noteNumber + ") ");
+//        System.out.print(note.noteSpec + "(" + note.noteNumber + ") ");
+        System.out.print(note.noteSpec + " ");
         if (note.noteNewLine)
             System.out.println();
         System.out.flush();

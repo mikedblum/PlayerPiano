@@ -1,13 +1,35 @@
 900 ab bb eb
 
-    e/8 f/8|g g g/8 b g/8|f/8 e/8 e/8 f/8 g g/8 a/8|b b e5/8 d5/8 e5/8 f5/8
+    e/8 f/8|g g g/8 b g/8|f/8 e/8 e/8 f/8 g g/8 a/8|b b e5/8 d5/8 e5/8 f5/8 g5 g5/8 f5/8 e5 r/4
 
-    g5 g5/8 f5/8 e5 r/4 e/8 f/8 |g     g/8 g/8    g/8  b     g/8 | f/8   e/8 e/8 f/8 g     c5/8. b/16
-#                       Let us   pause in  life's plea sures and   count its ma  ny  tears while we
-    b g g/8 e/8 f/8. f/16 | e/2 r e/8 f/8 g g/8 g/8 g/8 b g/8 | f/8 e/8 e/8 f/8 g c5
+    e/8 f/8 |g     g/8 g/8    g/8  b     g/8 | f/8   e/8 e/8 f/8 g     c5/8. b/16
+#   Let us   pause in  life's plea sures and   count its ma  ny  tears while we
 
-    b g g/8 e/8 f/8. f/16 | e/2 r g/8 a/8 | b b/8 b an/8 b/8 | c5/2 b r
+    b g g/8 e/8 f/8. f/16 | e/2 r e/8 f/8
 
-#    e5  b c5 b | g/8 g/8 f/8. e/16 f e/8 f/8 | g g/8 g/8 g/8 b g/8
+    g g/8 g/8 g/8 b g/8 | f/8 e/8 e/8 f/8 g c5
 
-#    f/8. e/16 e/8 f/8 g c5 | b g g/8 e/8 f/8. f/16 e/2 r
+    b g g/8 e/8 f/8. f/16 | e/2 r
+
+    g/8 a/8 | b r/8 b/8 b an/8 b/8 | c5/2 b r | e5  b c5 b |
+
+    g/8 g/8 f/8. e/16 f e/8 f/8 | g g/8 g/8 g/8 b g/8
+
+    f/8 e/8 e/8 f/8 g c5 | b g g/8 e/8 f/8. f/16 e/2 r
+
+
+
+    e/8 f/8 |g     g/8 g/8    g/8  b     g/8 | f/8   e/8 e/8 f/8 g     c5/8. b/16
+
+    b g g/8 e/8 f/8. f/16 | e/2 r e/8 f/8
+
+    g g/8 g/8 g/8 b g/8 | f/8 e/8 e/8 f/8 g c5
+
+    b g g/8 e/8 f/8. f/16 | e/2 r
+
+    g/8 a/8 | b r/8 b/8 b an/8 b/8 | c5/2 b r | e5  b c5 b |
+    ##r/2 g/8 a/8 | b r/8 b/8 b an/8 b/8 | c5/2 b r | e5  b c5 b |
+
+    g/8 g/8 f/8. e/16 f e/8 f/8 | g g/8 g/8 g/8 b g/8
+
+    f/8 e/8 e/8 f/8 g c5 | b g g/8 e/8 f/8. f/16 e/2 r
