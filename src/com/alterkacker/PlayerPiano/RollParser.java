@@ -9,14 +9,14 @@ import java.util.*;
  */
 public class RollParser {
     private static int qtrMsec = 0;
-    private static List<NoteInfo> notes = new ArrayList<>();
+    private static List<List<NoteInfo>> noteLines = new ArrayList<>();
     private static final List<String> validNotes = Arrays.asList("r", "c", "cn", "c#", "d", "db", "dn", "d#", "e", "eb", "en",
             "f", "fn", "f#", "g", "gb", "gn", "g#", "a", "an", "ab", "a#", "b", "bb", "bn");
     private static final List<String> validSigNotes = Arrays.asList("c#", "db", "d#", "eb", "f#", "gb", "g#", "ab", "a#", "bb", "bn");
     private static final Map<String, String> sigAccs = new HashMap<>();
     private static final Map<String, String> msrAccs = new HashMap<>();
 
-    public static List<NoteInfo> parseRoll(BufferedReader br) {
+    public static List<List<NoteInfo>> parseRoll(BufferedReader br) {
         String aline;
         boolean tempoLine = true;
         int nLines = 0;
@@ -30,7 +30,7 @@ public class RollParser {
                         parseSigLine(aline, nLines);
                         tempoLine = false;
                     } else {
-                        parseAline(aline, nLines);
+                        noteLines.add(parseAline(aline, nLines));
                     }
                 }
             }
@@ -42,7 +42,7 @@ public class RollParser {
             }
         }
 
-        return notes;
+        return noteLines;
     }
 
     private static void parseSigLine(String aline, int nLines) {
@@ -63,9 +63,12 @@ public class RollParser {
         }
     }
 
-    private static void parseAline(String aline, int nLines) {
+    private static List<NoteInfo> parseAline(String aline, int nLines) {
         String measures[] = aline.split("\\|");
         int nMeasures = measures.length;
+        NoteInfo nplay;
+        List<NoteInfo> lineNotes = new ArrayList<>();
+
         for (int mx = 0; mx < nMeasures; mx++) {
             String measure = measures[mx];
             msrAccs.clear();
@@ -73,12 +76,12 @@ public class RollParser {
             int nSpecs = specs.length;
             for (int sx = 0; sx < nSpecs; sx++) {
                 String spec = specs[sx];
-                NoteSpec nspec = new NoteSpec(spec, (mx == nMeasures - 1 && sx == nSpecs - 1));
+                NoteSpec nspec = new NoteSpec(spec);
                 String noteAndAcc = nspec.noteLtr + ((nspec.noteAcc != null)? nspec.noteAcc: "");
                 String noteAndOctave = nspec.noteLtr + String.valueOf(nspec.noteOctave);
 
                 if (validNotes.contains(noteAndAcc)) {
-                    NoteInfo nplay = new NoteInfo(nspec, qtrMsec);
+                    nplay = new NoteInfo(nspec, qtrMsec);
                     // note with no accidental
                     if (nspec.noteAcc == null) {
                         if (sigAccs.containsKey(nspec.noteLtr)) {
@@ -90,12 +93,18 @@ public class RollParser {
                     } else if (!"n".equals(nspec.noteAcc) && !msrAccs.containsKey(noteAndOctave)){
                         msrAccs.put(noteAndOctave, nspec.noteAcc);
                     }
-                    notes.add(nplay);
+                    lineNotes.add(nplay);
                 } else {
                     System.err.println("Invalid note spec '" + spec + "' in music line (" + nLines + ")");
                 }
+
+            }
+            if (mx < nMeasures -1){
+                nplay = new NoteInfo(-2, 0, "|");
+                lineNotes.add(nplay);
             }
         }
+        return lineNotes;
     }
 
 }

@@ -10,20 +10,14 @@ class NoteSpec {
     double noteValue;
     // Following fields not included in equals & hashCode methods
     String noteSpec;
-    boolean noteLineEnd;
 
     NoteSpec(String ltr, String acc, int octave, double value) {
         this.noteLtr = ltr;
         this.noteAcc = acc;
         this.noteOctave = octave;
-        this.noteValue = value;
     }
 
     NoteSpec(String s){
-        this(s, false);
-    }
-
-    NoteSpec(String s, boolean atLineEnd){
         int xpos = 0;
 
         String sx = s.toLowerCase();
@@ -70,7 +64,6 @@ class NoteSpec {
         }
 
         this.noteSpec = sx;
-        this.noteLineEnd = atLineEnd;
         this.noteLtr = ltr;
         this.noteAcc = acc;
         this.noteOctave = octave;

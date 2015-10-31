@@ -11,7 +11,6 @@ public class NoteInfo {
     double noteMsec;
     // Following fields not included in equals & hashCode methods
     String noteSpec;
-    boolean noteNewLine;
 
     static List<String> keysSharp = Arrays.asList("cn", "c#", "dn", "d#", "en", "fn", "f#", "gn", "g#", "an", "a#", "bn");
     static List<String> keysFlat = Arrays.asList("cn", "db", "dn", "eb", "en", "fn", "gb", "gn", "ab", "an", "bb", "bn");
@@ -22,9 +21,15 @@ public class NoteInfo {
         this.noteMsec = noteMsec;
     }
 
+
+    NoteInfo(int noteNumber, double noteMsec, String spec){
+        this.noteNumber = noteNumber;
+        this.noteMsec = noteMsec;
+        this.noteSpec = spec;
+    }
+
     NoteInfo(NoteSpec nspec, int qtrMsec){
         this.noteSpec = nspec.noteSpec;
-        this.noteNewLine = nspec.noteLineEnd;
 
         String fullNote = nspec.noteLtr;
         if (nspec.noteAcc != null)
