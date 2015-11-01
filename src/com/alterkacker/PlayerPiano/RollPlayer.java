@@ -34,7 +34,7 @@ public class RollPlayer {
                 notePosition.add(opos);
                 opos += note.noteSpec.length() + 1;
             }
-            System.out.println(outLine);
+            System.out.println(outLine.substring(0, outLine.length() - 1));
 
             Iterator<Integer> posIter = notePosition.listIterator();
             for (NoteInfo note : oneLine) {
