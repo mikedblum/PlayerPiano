@@ -1,5 +1,6 @@
 package com.alterkacker.PlayerPiano;
 
+import cogitolearning.*;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.*;
@@ -15,6 +16,16 @@ public class RollParser {
     private static final List<String> validSigNotes = Arrays.asList("c#", "db", "d#", "eb", "f#", "gb", "g#", "ab", "a#", "bb", "bn");
     private static final Map<String, String> sigAccs = new HashMap<>();
     private static final Map<String, String> msrAccs = new HashMap<>();
+    private static Tokenizer tokenizer = new Tokenizer();
+
+    static {
+        tokenizer.add("[a-g](#|b|n)?\\d?(/\\d{1,2}\\.?)?", 1);
+        tokenizer.add("r(/\\d{1,2}\\.?)?", 2);
+        tokenizer.add("\\|", 3);
+        tokenizer.add("\\[", 4);
+        tokenizer.add("]", 5);
+    }
+
 
     public static List<List<NoteInfo>> parseRoll(BufferedReader br) {
         String aline;
@@ -64,19 +75,18 @@ public class RollParser {
     }
 
     private static List<NoteInfo> parseAline(String aline, int nLines) {
-        String measures[] = aline.split("\\|");
-        int nMeasures = measures.length;
         NoteInfo nplay;
         List<NoteInfo> lineNotes = new ArrayList<>();
+        tokenizer.tokenize(aline);
+        msrAccs.clear();
 
-        for (int mx = 0; mx < nMeasures; mx++) {
-            String measure = measures[mx];
-            msrAccs.clear();
-            String specs[] = measure.trim().split(" +");
-            int nSpecs = specs.length;
-            for (int sx = 0; sx < nSpecs; sx++) {
-                String spec = specs[sx];
-                NoteSpec nspec = new NoteSpec(spec);
+        for (Tokenizer.Token tok : tokenizer.getTokens()){
+            if (tok.token > 2){
+                nplay = new NoteInfo(-2, 0, "|");
+                lineNotes.add(nplay);
+                msrAccs.clear();
+            } else {
+                NoteSpec nspec = new NoteSpec(tok.sequence);
                 String noteAndAcc = nspec.noteLtr + ((nspec.noteAcc != null)? nspec.noteAcc: "");
                 String noteAndOctave = nspec.noteLtr + String.valueOf(nspec.noteOctave);
 
@@ -89,19 +99,15 @@ public class RollParser {
                         } else if (msrAccs.containsKey(noteAndOctave)) {
                             nplay.noteNumber += msrAccs.get(noteAndOctave).equals("#") ? 1 : -1;
                         }
-                    // note with accidental
+                        // note with accidental
                     } else if (!"n".equals(nspec.noteAcc) && !msrAccs.containsKey(noteAndOctave)){
                         msrAccs.put(noteAndOctave, nspec.noteAcc);
                     }
                     lineNotes.add(nplay);
                 } else {
-                    System.err.println("Invalid note spec '" + spec + "' in music line (" + nLines + ")");
+                    System.err.println("Invalid note spec '" + tok.sequence + "' in music line (" + nLines + ")");
                 }
 
-            }
-            if (mx < nMeasures -1){
-                nplay = new NoteInfo(-2, 0, "|");
-                lineNotes.add(nplay);
             }
         }
         return lineNotes;
